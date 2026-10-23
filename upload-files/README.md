@@ -1,0 +1,17 @@
+
+# Веб-приложение для загрузки файлов на сервер (Flask + NGINX) 
+![](./assets/screen.png)
+
+## run-скрипт (non-systemd)
+```bash
+#!/bin/sh
+cd /home/user/upload-files || exit 1
+exec 2>&1
+
+exec /home/user/upload-files/.venv/bin/gunicorn \
+    --workers 3 \
+    --umask 0000 \
+    --bind unix:/tmp/upload-files.sock \
+    --chdir src \
+    wsgi:app
+```
